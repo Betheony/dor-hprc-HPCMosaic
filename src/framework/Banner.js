@@ -489,6 +489,18 @@ const Banner = ({ setRunTour }) => {
           </div>
 
           <div className="flex items-center space-x-2 md:space-x-3">
+            <div className="flex items-center pr-2 md:pr-3 border-r theme-border">
+              <button
+                type="button"
+                onClick={handleDashboardRefresh}
+                className="mosaic-topbar-button min-w-[40px] px-2"
+                title={`Refresh dashboard. Last updated ${dashboardUpdatedAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`}
+                aria-label="Refresh dashboard"
+              >
+                <MdRefresh className="text-xl flex-shrink-0" />
+              </button>
+            </div>
+
             <button
               type="button"
               onClick={openPopup}
@@ -497,16 +509,6 @@ const Banner = ({ setRunTour }) => {
             >
               <MdAddchart className="text-xl flex-shrink-0" />
               <span className="hidden md:inline">Add Element</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={handleDashboardRefresh}
-              className="mosaic-topbar-button"
-              title={`Refresh dashboard. Last updated ${dashboardUpdatedAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`}
-              aria-label="Refresh dashboard"
-            >
-              <MdRefresh className="text-xl flex-shrink-0" />
             </button>
 
             {/* Dashboard settings */}
@@ -531,25 +533,28 @@ const Banner = ({ setRunTour }) => {
 
                 <Menu.Items className="absolute right-0 mt-2 w-64 origin-top-right theme-surface border theme-border divide-y theme-border rounded-md shadow-lg focus:outline-none z-50">
                   <div className="p-2">
-                    <Menu.Item>
-                      {({ active }) => (
-                        <button
-                          type="button"
-                          onClick={() => setLayoutUtilityOpen(true)}
-                          className={`flex w-full items-center rounded-md border theme-border px-3 py-2 text-left transition-colors ${
-                            active ? 'theme-surface-hover' : 'theme-hover-surface'
-                          }`}
-                          disabled={loadingLayouts}
-                        >
-                          <MdViewQuilt className="mr-3 text-xl flex-shrink-0 theme-link" />
-                          <span className="min-w-0 flex-1">
-                            <span className="block text-sm font-semibold theme-text-primary">Layouts</span>
-                            <span className="block text-xs theme-text-muted">Save, restore, or reset your view</span>
-                          </span>
-                          <MdChevronRight className="ml-2 text-xl flex-shrink-0 theme-text-muted" aria-hidden="true" />
-                        </button>
-                      )}
-                    </Menu.Item>
+                    <button
+                      type="button"
+                      onClick={() => setLayoutUtilityOpen((isOpen) => !isOpen)}
+                      className={`flex w-full items-center rounded-md border theme-border px-3 py-2 text-left transition-colors theme-hover-surface ${
+                        layoutUtilityOpen ? 'theme-selected' : ''
+                      }`}
+                      disabled={loadingLayouts}
+                      aria-expanded={layoutUtilityOpen}
+                      aria-controls="dashboard-layout-menu"
+                    >
+                      <MdViewQuilt className="mr-3 text-xl flex-shrink-0 theme-link" />
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-sm font-semibold theme-text-primary">Layouts</span>
+                        <span className="block text-xs theme-text-muted">Save, restore, or reset your view</span>
+                      </span>
+                      <MdChevronRight
+                        className={`ml-2 text-xl flex-shrink-0 theme-text-muted transition-transform ${
+                          layoutUtilityOpen ? 'rotate-90' : ''
+                        }`}
+                        aria-hidden="true"
+                      />
+                    </button>
                   </div>
                   <div className="px-4 py-3">
                     <div className="mb-2 flex items-center text-sm font-semibold theme-text-secondary">

@@ -239,7 +239,7 @@ const LayoutUtility = ({
     return (
         <div className="LayoutUtility relative inline-block">
             {isOpen && !loadingLayouts && (
-                <div className="absolute right-0 mt-2 w-64 theme-surface border theme-border rounded-lg shadow-lg z-10">
+                <div id="dashboard-layout-menu" className="absolute right-0 mt-2 w-64 theme-surface border theme-border rounded-lg shadow-lg z-10">
                     <div className="flex justify-between items-center px-4 py-2 border-b theme-border">
                         <h3 className="font-medium theme-text-secondary">Layouts</h3>
                         <button 
