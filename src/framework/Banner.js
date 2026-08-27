@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Menu, Transition } from '@headlessui/react';
 import Joyride, { STATUS, ACTIONS } from 'react-joyride';
-import { MdAddchart, MdOutlineQuestionAnswer, MdPlayCircleOutline, MdFeedback, MdClose, MdMaximize, MdMinimize, MdLock, MdLockOpen, MdPalette, MdCheck, MdFormatSize, MdTextFields, MdViewQuilt, MdChevronRight } from "react-icons/md";
+import { MdAddchart, MdOutlineQuestionAnswer, MdPlayCircleOutline, MdFeedback, MdClose, MdMaximize, MdMinimize, MdLock, MdLockOpen, MdPalette, MdCheck, MdFormatSize, MdTextFields, MdViewQuilt, MdChevronLeft } from "react-icons/md";
 import { toast } from "react-hot-toast";
 import { MdKeyboardArrowUp, MdKeyboardArrowDown, MdOutlineOpenInFull, MdOutlineCloseFullscreen, MdSettings, MdRefresh } from "react-icons/md";
 
@@ -532,10 +532,20 @@ const Banner = ({ setRunTour }) => {
 	      >
 
                 <Menu.Items className="absolute right-0 mt-2 w-64 origin-top-right theme-surface border theme-border divide-y theme-border rounded-md shadow-lg focus:outline-none z-50">
-                  <div className="p-2">
+                  <div
+                    className="relative p-2"
+                    onMouseEnter={() => setLayoutUtilityOpen(true)}
+                    onMouseLeave={() => setLayoutUtilityOpen(false)}
+                    onFocus={() => setLayoutUtilityOpen(true)}
+                    onBlur={(event) => {
+                      if (!event.currentTarget.contains(event.relatedTarget)) {
+                        setLayoutUtilityOpen(false);
+                      }
+                    }}
+                  >
                     <button
                       type="button"
-                      onClick={() => setLayoutUtilityOpen((isOpen) => !isOpen)}
+                      onClick={() => setLayoutUtilityOpen(true)}
                       className={`flex w-full items-center rounded-md border theme-border px-3 py-2 text-left transition-colors theme-hover-surface ${
                         layoutUtilityOpen ? 'theme-selected' : ''
                       }`}
@@ -548,13 +558,21 @@ const Banner = ({ setRunTour }) => {
                         <span className="block text-sm font-semibold theme-text-primary">Layouts</span>
                         <span className="block text-xs theme-text-muted">Save, restore, or reset your view</span>
                       </span>
-                      <MdChevronRight
-                        className={`ml-2 text-xl flex-shrink-0 theme-text-muted transition-transform ${
-                          layoutUtilityOpen ? 'rotate-90' : ''
-                        }`}
-                        aria-hidden="true"
-                      />
+                      <MdChevronLeft className="ml-2 text-xl flex-shrink-0 theme-text-muted" aria-hidden="true" />
                     </button>
+
+                    <LayoutUtility
+                      layouts={layouts}
+                      setLayouts={setLayouts}
+                      applyDefaultView={applyDefaultView}
+                      applySavedLayout={applySavedLayout}
+                      saveCurrentLayout={saveCurrentLayout}
+                      loadingLayouts={loadingLayouts}
+                      isOpen={layoutUtilityOpen}
+                      setIsOpen={setLayoutUtilityOpen}
+                      className="LayoutUtility absolute right-full top-0"
+                      panelClassName="w-64 theme-surface border theme-border rounded-lg shadow-lg z-50"
+                    />
                   </div>
                   <div className="px-4 py-3">
                     <div className="mb-2 flex items-center text-sm font-semibold theme-text-secondary">
@@ -691,17 +709,6 @@ const Banner = ({ setRunTour }) => {
 	      onClick={() => setLayoutUtilityOpen(false)}
 	/>
       )}
-
-      <LayoutUtility
-        layouts={layouts}
-        setLayouts={setLayouts}
-        applyDefaultView={applyDefaultView}
-        applySavedLayout={applySavedLayout}
-        saveCurrentLayout={saveCurrentLayout}
-        loadingLayouts={loadingLayouts}
-        isOpen={layoutUtilityOpen}
-        setIsOpen={setLayoutUtilityOpen}
-      />
 
       <LayoutLockProvider layoutLocked={layoutLocked} setLayoutLocked={setLayoutLocked}>
         {/* Main Content Area */}
