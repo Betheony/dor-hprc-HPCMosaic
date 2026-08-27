@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Menu, Transition } from '@headlessui/react';
 import Joyride, { STATUS, ACTIONS } from 'react-joyride';
-import { MdAddchart, MdOutlineQuestionAnswer, MdPlayCircleOutline, MdFeedback, MdClose, MdMaximize, MdMinimize, MdLock, MdLockOpen, MdPalette, MdCheck, MdFormatSize, MdTextFields } from "react-icons/md";
+import { MdAddchart, MdOutlineQuestionAnswer, MdPlayCircleOutline, MdFeedback, MdClose, MdMaximize, MdMinimize, MdLock, MdLockOpen, MdPalette, MdCheck, MdFormatSize, MdTextFields, MdViewQuilt } from "react-icons/md";
 import { toast } from "react-hot-toast";
 import { MdKeyboardArrowUp, MdKeyboardArrowDown, MdOutlineOpenInFull, MdOutlineCloseFullscreen, MdSettings, MdRefresh } from "react-icons/md";
 
@@ -510,9 +510,40 @@ const Banner = ({ setRunTour }) => {
               <span className="hidden md:inline">Refresh</span>
             </button>
 
-            {/* Settings Dropdown - Contains Layout controls */}
+            <div className="LayoutUtility relative inline-block text-left">
+              <button
+                type="button"
+                onClick={() => setLayoutUtilityOpen((isOpen) => !isOpen)}
+                className="mosaic-topbar-button min-w-[48px] md:min-w-auto"
+                title="Manage dashboard layouts"
+                aria-label="Manage dashboard layouts"
+                aria-expanded={layoutUtilityOpen}
+                aria-haspopup="menu"
+                disabled={loadingLayouts}
+              >
+                <MdViewQuilt className="text-xl flex-shrink-0" />
+                <span className="hidden md:inline">Layouts</span>
+              </button>
+
+              <LayoutUtility
+                layouts={layouts}
+                setLayouts={setLayouts}
+                applyDefaultView={applyDefaultView}
+                applySavedLayout={applySavedLayout}
+                saveCurrentLayout={saveCurrentLayout}
+                loadingLayouts={loadingLayouts}
+                isOpen={layoutUtilityOpen}
+                setIsOpen={setLayoutUtilityOpen}
+              />
+            </div>
+
+            {/* Appearance settings */}
             <Menu as="div" className="relative inline-block text-left">
-              <Menu.Button className="mosaic-topbar-button min-w-[48px] md:min-w-auto">
+              <Menu.Button
+                className="mosaic-topbar-button min-w-[48px] md:min-w-auto"
+                title="Dashboard appearance settings"
+                aria-label="Dashboard appearance settings"
+              >
                 <MdSettings className="text-xl flex-shrink-0" />
                 <span className="hidden md:inline">Settings</span>
               </Menu.Button>  
@@ -527,20 +558,6 @@ const Banner = ({ setRunTour }) => {
 	      >
 
                 <Menu.Items className="absolute right-0 mt-2 w-64 origin-top-right theme-surface border theme-border divide-y theme-border rounded-md shadow-lg focus:outline-none z-50">
-	          <div className="py-1">
-
- 	            {/*Layout Utility*/}
-	            <Menu.Item>
-	              {({ active }) => (
-      <button onClick={() => setLayoutUtilityOpen(!layoutUtilityOpen)} className={`${active ? 'theme-surface-hover' : ''} flex w-full px-4 py-2 text-sm text-left theme-text-secondary`}>
-
-			  <MdAddchart className="text-lg mr-2" />
-                          Layouts
-			</button>	        
-                      )}
-	            </Menu.Item>
-
-	          </div>
                   <div className="px-4 py-3">
                     <div className="mb-2 flex items-center text-sm font-semibold theme-text-secondary">
                       <MdPalette className="mr-2 text-lg" />
@@ -676,17 +693,6 @@ const Banner = ({ setRunTour }) => {
 	      onClick={() => setLayoutUtilityOpen(false)}
 	/>
       )}
-
-      <LayoutUtility
-        layouts={layouts}
-        setLayouts={setLayouts}
-        applyDefaultView={applyDefaultView}
-        applySavedLayout={applySavedLayout}
-        saveCurrentLayout={saveCurrentLayout}
-        loadingLayouts={loadingLayouts}
-        isOpen={layoutUtilityOpen}
-        setIsOpen={setLayoutUtilityOpen}
-      />
 
       <LayoutLockProvider layoutLocked={layoutLocked} setLayoutLocked={setLayoutLocked}>
         {/* Main Content Area */}
