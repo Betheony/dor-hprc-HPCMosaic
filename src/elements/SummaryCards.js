@@ -609,7 +609,7 @@ export const GettingStartedCard = () => {
       href: "https://hprc.tamu.edu/kb/Software/",
     },
     {
-      title: "Youtube lalalChannel",
+      title: "Youtube Channel",
       description: "Watch introductory videos and shortcourse vods",
       href: "https://youtube.com/channel/UCgeDEHE5GwkxYUGS0FDLmPw/",
     },
