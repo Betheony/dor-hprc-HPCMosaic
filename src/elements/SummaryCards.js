@@ -609,7 +609,7 @@ export const GettingStartedCard = () => {
       href: "https://hprc.tamu.edu/kb/Software/",
     },
     {
-      title: "Youtube Channel",
+      title: "Youtube lalalChannel",
       description: "Watch introductory videos and shortcourse vods",
       href: "https://youtube.com/channel/UCgeDEHE5GwkxYUGS0FDLmPw/",
     },
@@ -628,6 +628,8 @@ export const GettingStartedCard = () => {
             className="non-draggable group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b border-mosaic-border py-[9px] no-underline transition-colors focus-visible:rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-mosaic-accent"
             href={href}
             key={href}
+            onClick={(event) => event.stopPropagation()}
+            onMouseDown={(event) => event.stopPropagation()}
             rel="noopener noreferrer"
             target="_blank"
           >
